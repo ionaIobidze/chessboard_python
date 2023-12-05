@@ -19,7 +19,7 @@ class ChessApp:
         self.canvas.delete("all")
         for row in range(8):
             for col in range(8):
-                color = 'white' if (row + col) % 2 == 0 else 'gray'
+                color = '#40A578' if (row + col) % 2 == 0 else '#006769'
                 self.canvas.create_rectangle(col * 80, row * 80, (col + 1) * 80, (row + 1) * 80, fill=color)
                 piece = self.game.board.board[row][col]
                 if piece is not None:
