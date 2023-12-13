@@ -1,5 +1,6 @@
 from pieces import *
 
+
 class Board:
     def __init__(self):
         self.board = [[None for _ in range(8)] for _ in range(8)]
@@ -13,30 +14,26 @@ class Board:
         return new_board
 
     def setup_board(self):
-        # Setup pawns
+        # Setup the board with all the pieces
         for i in range(8):
             self.board[1][i] = Pawn('black')
             self.board[6][i] = Pawn('white')
 
-        # Setup rooks
         self.board[0][0] = Rook('black')
         self.board[0][7] = Rook('black')
         self.board[7][0] = Rook('white')
         self.board[7][7] = Rook('white')
 
-        # Setup knights
         self.board[0][1] = Knight('black')
         self.board[0][6] = Knight('black')
         self.board[7][1] = Knight('white')
         self.board[7][6] = Knight('white')
 
-        # Setup bishops
         self.board[0][2] = Bishop('black')
         self.board[0][5] = Bishop('black')
         self.board[7][2] = Bishop('white')
         self.board[7][5] = Bishop('white')
 
-        # Setup queens
         self.board[0][3] = Queen('black')
         self.board[7][3] = Queen('white')
 
@@ -56,7 +53,7 @@ class Board:
     def move_piece(self, start, end):
         piece = self.board[start[0]][start[1]]
         if isinstance(piece, King) and abs(start[1] - end[1]) == 2:
-            # Handle castling
+            # taking care of the castling
             if end[1] == 6:  # Kingside castling
                 self.board[start[0]][5] = self.board[start[0]][7]
                 self.board[start[0]][7] = None
@@ -80,6 +77,11 @@ class Board:
             self.en_passant_target = ((start[0] + end[0]) // 2, start[1])
         else:
             self.en_passant_target = None
+
+        # Handle promotion
+        if isinstance(piece, Pawn) and (end[0] == 0 or end[0] == 7):
+            return True
+        return False
 
     def is_under_attack(self, position, color):
         row, col = position
